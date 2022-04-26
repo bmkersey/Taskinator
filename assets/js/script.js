@@ -113,14 +113,13 @@ var createTaskActions = function(taskId){
 var taskButtonHandler = function(event){
     var targetE1 = event.target
 
-    if (targetE1.matches(".delete-btn")){
+    if (targetE1.matches(".edit-btn")){
+        var taskId = targetE1.getAttribute("data-task-id")
+        editTask(taskId)
+    }else if (targetE1.matches(".delete-btn")){
         var taskId = targetE1.getAttribute("data-task-id")
         deleteTask(taskId)
     }
-
-    if (targetE1.matches(".edit-btn"))
-        var taskId = targetE1.getAttribute("data-task-id")
-        editTask(taskId)
 
 }
 
