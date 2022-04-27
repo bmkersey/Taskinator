@@ -197,34 +197,18 @@ var saveTasks = function(){
 }
 
 var loadTasks = function(){
+    
     //get items from storage
-    tasks = localStorage.getItem("tasks", JSON.parse(tasks));
+    var savedTasks = localStorage.getItem("tasks");
     //convert strings
+    if (!savedTasks){
+        return false;
+    }
 
-    //itterate through to create elements
-    for (var i = 0; i < tasks.length; i++){
-        tasks[i].id = taskIdCounter
-        var listItemE1 = document.createElement('li')
-        listItemE1.className = "task-item"
-        listItemE1.setAttribute("data-task-id", tasks[i].id)
-        var taskInfoE1 = document.createElement("div")
-        taskInfoE1.className = "task-info"
-        taskInfoE1.innerHTML = "<h3 class='class-name-task'>" + tasks[i].name + "</h3><span class='class-type'>" + tasks[i].type + "</span>";
-        listItemE1.appendChild(taskInfoE1)
-        var taskActionsE1 = createTaskActions(tasks[i].id)
-        listItemE1.appendChild(taskActionsE1);
+    savedTasks = JSON.parse(savedTasks);
 
-        if(tasks[i].status === "to do"){
-            listItemEl.querySelector("select[name='status-change']").selectedIndex = 0
-            tasksToDoE1.appendChild(listItemE1);
-        } else if (tasks[i].status === "in progress"){
-            listItemEl.querySelector("select[name='status-change']").selectedIndex = 1
-            tasksInProgressE1.appendChild(listItemE1);
-        } else if (tasks[i].staus === "complete"){
-            listItemEl.querySelector("select[name='status-change']").selectedIndex = 2
-            tasksCompletedE1.appendChild(listItemE1)
-        }
-        taskIdCounter++;
+    for (var i = 0; i < savedTasks.length; i++){
+        createTaskE1(savedTasks[i]);
     }
 
 }
@@ -232,3 +216,4 @@ var loadTasks = function(){
 formE1.addEventListener("submit", taskFormHandler);
 pageContentE1.addEventListener("click", taskButtonHandler);
 pageContentE1.addEventListener("change", taskStatusChangeHandler);
+loadTasks();
