@@ -20,12 +20,7 @@ var taskFormHandler = function(event) {
 
     formE1.reset();
 
-    //make data an object
-    var taskDataObj = {
-        name: taskNameInput,
-        type: taskTypeInput,
-        status: "to do"
-    };
+   
 
     var isEdit = formE1.hasAttribute("data-task-id");
     
@@ -63,12 +58,30 @@ var createTaskE1 = function(taskDataObj){
 
     var taskActionsE1 = createTaskActions(taskIdCounter);
     listItemE1.appendChild(taskActionsE1)
+
+    switch (taskDataObj.status) {
+        case "to do":
+          taskActionsE1.querySelector("select[name='status-change']").selectedIndex = 0;
+          tasksToDoE1.append(listItemE1);
+          break;
+        case "in progress":
+          taskActionsE1.querySelector("select[name='status-change']").selectedIndex = 1;
+          tasksInProgressE1.append(listItemE1);
+          break;
+        case "completed":
+          taskActionsE1.querySelector("select[name='status-change']").selectedIndex = 2;
+          tasksCompletedE1.append(listItemE1);
+          break;
+        default:
+          console.log("Something went wrong!");
+      }
+    
     
     taskDataObj.id = taskIdCounter;
     tasks.push(taskDataObj);
     saveTasks();
 
-    tasksToDoE1.appendChild(listItemE1);
+    
 
     taskIdCounter++;
 
@@ -189,7 +202,7 @@ var taskStatusChangeHandler = function(event){
             tasks[i].status = statusValue
         }
     }
-    saveTasks()
+    saveTasks();
 
 };
 var saveTasks = function(){
